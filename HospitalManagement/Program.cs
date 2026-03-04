@@ -32,4 +32,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseAuthorization();
 app.MapControllers();
+
+// Seed automatique au démarrage
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<HospitalDbContext>();
+    await DataSeeder.SeedAsync(context);
+}
 app.Run();
